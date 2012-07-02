@@ -18,23 +18,38 @@ namespace SecurityClient
         {
             this.accessService = accessService;
             ValidateAccess = new DelegateCommand(OnValidateAccess);
+            results = new List<string>();
         }
 
         private void OnValidateAccess()
         {
-            results = new List<string>();
+            var originalTokenListCount = 0;
             if (!accessService.AccessInputIsValid(SecurityKey))
             {
-                results.Add(failureMsg);
-                OnPropertyChanged("Results");
+                SetFailureMessege();
                 return;
             }
             
             AccessCodeSet = accessService.CreateAccessCodeSet(SecurityKey);
+            originalTokenListCount = AccessCodeSet.TokenList.Count;
             var sortedList = accessService.OrderSecurityTokens(AccessCodeSet, new List<Tuple<string, string>>(), null);
-            foreach (var tuple in sortedList)
+            if(originalTokenListCount > sortedList.Count)
+            {
+                SetFailureMessege();
+                return;
+            }
+            AccessCodeSet.TokenList = sortedList;
+            foreach (var tuple in AccessCodeSet.TokenList)
                 results.Add(tuple.Item1 + "," + tuple.Item2);
 
+
+
+            OnPropertyChanged("Results");
+        }
+
+        private void SetFailureMessege()
+        {
+            results.Add(failureMsg);
             OnPropertyChanged("Results");
         }
 

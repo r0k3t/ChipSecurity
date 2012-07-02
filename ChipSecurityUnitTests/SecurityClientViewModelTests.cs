@@ -22,7 +22,7 @@ namespace ChipSecurityUnitTests
         private SecurityClientViewModel vm;
 
         [Test]
-        public void ProcessSecurityKey_Will_Sets_Results_List_To_Cannot_unlock_master_panel_If_Input_Is_Bad()
+        public void ProcessSecurityKey_Will_Set_Results_List_To_Cannot_unlock_master_panel_If_Input_Is_Bad()
         {
             string failureMsg = @"Cannot unlock master panel";
             vm.SecurityKey = "Opps!";
@@ -73,6 +73,15 @@ namespace ChipSecurityUnitTests
             vm.SecurityKey = @"blue, green blue, yellow red, orange red, green yellow, red orange, red";
             vm.ValidateAccess.Execute();
             Assert.AreEqual(5, vm.Results.Count());
+        }
+
+        [Test]
+        public void ValidateAccess_Will_Set_Results_To_List_To_Cannot_unlock_master_panel_If_It_Cant_Order_The_Entire_List()
+        {
+            string failureMsg = @"Cannot unlock master panel";
+            vm.SecurityKey = @"blue, green blue, yellow red, orange red, green yellow, red black, yellow orange, red";
+            vm.ValidateAccess.Execute();
+            Assert.AreEqual(failureMsg, vm.Results.First());
         }
 
 
