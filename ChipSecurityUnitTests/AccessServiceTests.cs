@@ -81,8 +81,9 @@ namespace ChipSecurityUnitTests
                                                             new Tuple<string, string>("blue", "yellow"),
                                                         }
                                     };
-            var list = service.OrderSecurityTokens(accessCodeSet, new List<Tuple<string, string>>());
-            Assert.IsTrue(list.Count() < accessCodeSet.TokenList.Count());
+            var orginalCount = accessCodeSet.TokenList.Count();
+            var list = service.OrderSecurityTokens(accessCodeSet, new List<Tuple<string, string>>(), null);
+            Assert.IsTrue(orginalCount > accessCodeSet.TokenList.Count());
         }
 
         [Test]
@@ -106,8 +107,9 @@ namespace ChipSecurityUnitTests
                                                             new Tuple<string, string>("blue", "yellow"),
                                                         }
             };
-            var list = service.OrderSecurityTokens(accessCodeSet, new List<Tuple<string, string>>());
-            Assert.IsTrue(list.Count() < accessCodeSet.TokenList.Count());
+            var orginalCount = accessCodeSet.TokenList.Count();
+            accessCodeSet.TokenList = service.OrderSecurityTokens(accessCodeSet, new List<Tuple<string, string>>(), null);
+            Assert.AreEqual(orginalCount, accessCodeSet.TokenList.Count());
         }
     }
 }

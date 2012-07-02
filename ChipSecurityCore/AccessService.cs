@@ -23,16 +23,19 @@ namespace ChipSecurityCore
             return codeSet;
         }
 
-        public List<Tuple<string, string>> OrderSecurityTokens(AccessCodeSet accessCodeSet, List<Tuple<string, string>> sortedList)
+        public List<Tuple<string, string>> OrderSecurityTokens(AccessCodeSet accessCodeSet, List<Tuple<string, string>> sortedList, string newStartColor)
         {
-            if (accessCodeSet.TokenList.Count(x => x.Item1.Equals(accessCodeSet.StartColor)) == 1)
+            var startColor = accessCodeSet.StartColor;
+            if (!string.IsNullOrEmpty(newStartColor))
+                startColor = newStartColor;
+            if (accessCodeSet.TokenList.Count(x => x.Item1.Equals(startColor)) == 1)
             {
-                sortedList.Add(accessCodeSet.TokenList.Single(x => x.Item1.Equals(accessCodeSet.StartColor)));
+                sortedList.Add(accessCodeSet.TokenList.Single(x => x.Item1.Equals(startColor)));
                 accessCodeSet.TokenList = accessCodeSet.TokenList.ToList().Except(new List<Tuple<string, string>> { sortedList.Last() }).ToList();
             }
             else
             {
-                var listOfTokensWithSameStartColor = accessCodeSet.TokenList.Where(x => x.Item1.Equals(accessCodeSet.StartColor));
+                var listOfTokensWithSameStartColor = accessCodeSet.TokenList.Where(x => x.Item1.Equals(startColor));
                 if (!listOfTokensWithSameStartColor.Any())
                     return sortedList;
                 foreach (var token in listOfTokensWithSameStartColor)
@@ -47,7 +50,7 @@ namespace ChipSecurityCore
                 }
             }
             if (accessCodeSet.TokenList.Any())
-                OrderSecurityTokens(accessCodeSet, sortedList);
+                OrderSecurityTokens(accessCodeSet, sortedList, sortedList.Last().Item2);
             return sortedList;
         }
 
