@@ -24,7 +24,7 @@ namespace ChipSecurityUnitTests
         private IAccessService service;
 
         [Test]
-        public void AccessInputIsValidWillReturnFalseIfInputIsInvalid()
+        public void AccessInputIsValid_Will_Return_False_If_Input_Is_Invalid()
         {
             string input = "this is NOT valid input";
             bool result = service.AccessInputIsValid(input);
@@ -32,7 +32,7 @@ namespace ChipSecurityUnitTests
         }
 
         [Test]
-        public void AccessInputIsValidWillReturnTrueIfInputIsInvalid()
+        public void AccessInputIsValid_Will_Return_True_If_Input_Is_Invalid()
         {
             string input =
                 "blue, green blue, green blue, yellow green, yellow orange, red red, green red, orange yellow, blue yellow, red";
@@ -42,7 +42,7 @@ namespace ChipSecurityUnitTests
 
 
         [Test]
-        public void CanCreateAccessCodeSet()
+        public void Can_Create_Access_Code_Set()
         {
             string input =
                 "blue, green blue, green blue, yellow green, yellow orange, red red, green red, orange yellow, blue yellow, red";
@@ -53,13 +53,13 @@ namespace ChipSecurityUnitTests
         }
 
         [Test]
-        public void CanInitialNewSecurityService()
+        public void Can_Initialize_New_SecurityService()
         {
             Assert.IsNotNull(service);
         }
 
         [Test]
-        public void OrderSecurityTokensReturnsListShorterThanOriginalIfItCantOrderAllTokens()
+        public void Order_Security_Tokens_Returns_List_Shorter_Than_Original_If_It_Cant_Order_All_Tokens()
         {
             var accessCodeSet = new AccessCodeSet
                                     {
@@ -87,7 +87,7 @@ namespace ChipSecurityUnitTests
         }
 
         [Test]
-        public void OrderSecurityTokensReturnsListOfSameLengthAsOriginalIfCanOrderAllTheTokens()
+        public void Order_Security_Tokens_Returns_List_Of_Same_Length_As_Original_If_Can_Order_All_The_Tokens()
         {
             var accessCodeSet = new AccessCodeSet
             {

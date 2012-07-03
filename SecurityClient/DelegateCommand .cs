@@ -24,7 +24,7 @@ namespace SecurityClient
 
         public void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            execute();
         }
 
         public bool CanExecute(object parameter)
