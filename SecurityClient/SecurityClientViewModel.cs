@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using ChipSecurityCore.DataTypes;
 using ChipSecurityCore.Interfaces;
 
@@ -75,9 +76,14 @@ namespace SecurityClient
                 return;
             }
             AccessCodeSet.TokenList = sortedList;
+            if (!AccessCodeSet.TokenList.Last().Item2.Equals(AccessCodeSet.EndColor))
+            {
+                SetFailureMessege();
+                return;
+            }
             foreach (var tuple in AccessCodeSet.TokenList)
                 results.Add(tuple.Item1 + "," + tuple.Item2);
-
+            
             OnPropertyChanged("Results");
         }
 
