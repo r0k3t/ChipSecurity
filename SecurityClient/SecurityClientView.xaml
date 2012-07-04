@@ -175,7 +175,7 @@
 		 Grid.Column="1"  Grid.Row="2" Command="{Binding ValidateAccess}" Template="{DynamicResource ProcessInputButtonControlTemplate}" Margin="-55.557,2.36,21.244,0"/>
     	<ListBox 
 		 	ItemsSource="{Binding Results}"
-		 	Grid.Row="3" Grid.RowSpan="2" Width="222" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFFFF500" FontWeight="Bold" FontSize="16" FontFamily="Vani"/>
+		 	Grid.Row="3" Grid.RowSpan="2" Width="344" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFFFF500" FontWeight="Bold" FontSize="16" FontFamily="Vani"/>
     	<Grid HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" Height="25" VerticalAlignment="Top">
     		<Grid.ColumnDefinitions>
     			<ColumnDefinition Width="120"/>
