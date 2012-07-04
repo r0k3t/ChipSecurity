@@ -32,7 +32,7 @@ namespace ChipSecurityUnitTests
         }
 
         [Test]
-        public void AccessInputIsValid_Will_Return_True_If_Input_Is_Invalid()
+        public void AccessInputIsValid_Will_Return_True_If_Input_Is_Valid()
         {
             string input =
                 "blue, green blue, green blue, yellow green, yellow orange, red red, green red, orange yellow, blue yellow, red";

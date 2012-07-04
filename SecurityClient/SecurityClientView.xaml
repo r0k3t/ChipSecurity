@@ -1,24 +1,199 @@
-﻿<Window x:Class="SecurityClient.SecurityClientView"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SecurityClientView" Height="500" Width="700">
-    <Grid>
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="SecurityClient.SecurityClientView"
+        Title="SecurityClientView" Height="400" Width="700">
+	<Window.Resources>
+		<ControlTemplate x:Key="ProcessInputButtonControlTemplate" TargetType="{x:Type Button}">
+    		<Grid x:Name="grid" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" RenderTransformOrigin="0.5,0.5">
+    			<Grid.RenderTransform>
+    				<TransformGroup>
+    					<ScaleTransform/>
+    					<SkewTransform/>
+    					<RotateTransform/>
+    					<TranslateTransform/>
+    				</TransformGroup>
+    			</Grid.RenderTransform>
+    			<VisualStateManager.VisualStateGroups>
+    				<VisualStateGroup x:Name="CommonStates">
+    					<VisualState x:Name="Normal"/>
+    					<VisualState x:Name="MouseOver">
+    						
+    						<Storyboard>
+    							<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)" Storyboard.TargetName="rectangle">
+    								<EasingColorKeyFrame KeyTime="0" Value="#FFD6931B"/>
+    							</ColorAnimationUsingKeyFrames>
+    						</Storyboard>
+    						
+    					</VisualState>
+    					<VisualState x:Name="Pressed">
+    						<Storyboard>
+    							<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.Color)" Storyboard.TargetName="rectangle">
+    								<EasingColorKeyFrame KeyTime="0" Value="#FFDEB109"/>
+    							</ColorAnimationUsingKeyFrames>
+    							<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
+    								<EasingDoubleKeyFrame KeyTime="0" Value="0.9"/>
+    							</DoubleAnimationUsingKeyFrames>
+    							<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid">
+    								<EasingDoubleKeyFrame KeyTime="0" Value="0.9"/>
+    							</DoubleAnimationUsingKeyFrames>
+    							<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.ShadowDepth)" Storyboard.TargetName="rectangle">
+    								<EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+    							</DoubleAnimationUsingKeyFrames>
+    						</Storyboard>
+    					</VisualState>
+    					<VisualState x:Name="Disabled">
+    						<Storyboard>
+    							<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="textBlock">
+    								<EasingColorKeyFrame KeyTime="0" Value="#FFAFACA7"/>
+    							</ColorAnimationUsingKeyFrames>
+    						</Storyboard>
+    					</VisualState>
+    				</VisualStateGroup>
+    			</VisualStateManager.VisualStateGroups>
+    			<Rectangle x:Name="rectangle" Margin="5.398,3.663,6.002,4.337">
+    				<Rectangle.Fill>
+    					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    						<GradientStop Color="#FFCACACA" Offset="0"/>
+    						<GradientStop Color="#FFB1B1B1" Offset="1"/>
+    						<GradientStop Color="#FFE6E6E6" Offset="0.394"/>
+    					</LinearGradientBrush>
+    				</Rectangle.Fill>
+    				<Rectangle.Effect>
+    					<DropShadowEffect BlurRadius="4" ShadowDepth="3" Color="#FFCFCFCF" Opacity="0.435" Direction="294"/>
+    				</Rectangle.Effect>
+    			</Rectangle>
+    			<TextBlock x:Name="textBlock" Margin="0" TextWrapping="Wrap" Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Foreground="#FFD6931B"/>
+    		</Grid>
+    	</ControlTemplate>
+		<ControlTemplate x:Key="PredefinedButtonControlTemplate" TargetType="{x:Type Button}">
+			<Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+				<Grid.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Grid.RenderTransform>
+				<VisualStateManager.VisualStateGroups>
+					<VisualStateGroup x:Name="CommonStates">
+						<VisualState x:Name="Normal"/>
+						<VisualState x:Name="MouseOver">
+							<Storyboard>
+								<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+									<EasingColorKeyFrame KeyTime="0" Value="#FFDFDCDC"/>
+								</ColorAnimationUsingKeyFrames>
+								<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+									<EasingColorKeyFrame KeyTime="0" Value="Transparent"/>
+								</ColorAnimationUsingKeyFrames>
+							</Storyboard>
+						</VisualState>
+						<VisualState x:Name="Pressed">
+							<Storyboard>
+								<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+									<EasingColorKeyFrame KeyTime="0" Value="#FFDFDCDC"/>
+								</ColorAnimationUsingKeyFrames>
+								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
+									<EasingDoubleKeyFrame KeyTime="0" Value="0.9"/>
+								</DoubleAnimationUsingKeyFrames>
+								<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid">
+									<EasingDoubleKeyFrame KeyTime="0" Value="0.9"/>
+								</DoubleAnimationUsingKeyFrames>
+							</Storyboard>
+						</VisualState>
+						<VisualState x:Name="Disabled"/>
+					</VisualStateGroup>
+				</VisualStateManager.VisualStateGroups>
+				<Ellipse>
+					<Ellipse.Fill>
+						<RadialGradientBrush RadiusX="1.087" RadiusY="1.609" Center="0.252,0.292" GradientOrigin="0.252,0.292">
+							<GradientStop Color="#FFC1D2C1"/>
+							<GradientStop Color="#FF11D818" Offset="1"/>
+						</RadialGradientBrush>
+					</Ellipse.Fill>
+				</Ellipse>
+				<Label x:Name="label" Content="{TemplateBinding Content}" Margin="0" Padding="0" FontWeight="Bold" Foreground="#FFB6B6B6" HorizontalAlignment="Center" VerticalAlignment="Center">
+					<Label.Effect>
+						<DropShadowEffect ShadowDepth="1" Color="White"/>
+					</Label.Effect>
+				</Label>
+			</Grid>
+		</ControlTemplate>
+	</Window.Resources>
+    <Grid Background="#FFCACACA">
     	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="0.827*"/>
-    		<ColumnDefinition Width="0.173*"/>
+    		<ColumnDefinition Width="0.763*"/>
+    		<ColumnDefinition Width="0.237*"/>
     	</Grid.ColumnDefinitions>
     	<Grid.RowDefinitions>
-    		<RowDefinition Height="0.125*"/>
-    		<RowDefinition Height="0.11*"/>
+    		<RowDefinition Height="40"/>
+    		<RowDefinition Height="40"/>
+    		<RowDefinition Height="40"/>
     		<RowDefinition Height="0.105*"/>
     		<RowDefinition Height="0.66*"/>
     	</Grid.RowDefinitions>
-    	<Label Content="Enter Security key" HorizontalAlignment="Left" Margin="21.2,16.2,0,8" Width="212"/>
-    	<TextBox Margin="21.2,8,63.391,0" Grid.Row="1" TextWrapping="Wrap" Text="{Binding SecurityKey, UpdateSourceTrigger=PropertyChanged}"/>
-    	<Button Content="Button" Grid.Column="1"  Grid.Row="1" Command="{Binding ValidateAccess}"/>
+    	<Path Data="M416.26522,193.55511 C475.46511,279.95512 586.65196,309.19477 586.65196,309.19477 586.65196,309.19477 477.75831,943.90321 451.70575,608.9772 438.19777,435.32146 195.82682,577.12538 195.82682,577.12538" Margin="-243.421,0,140.204,-338.793" Grid.Row="4" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Height="435.256" VerticalAlignment="Bottom">
+    		<Path.RenderTransform>
+    			<TransformGroup>
+    				<ScaleTransform/>
+    				<SkewTransform/>
+    				<RotateTransform Angle="55.679"/>
+    				<TranslateTransform X="61.579053936030505" Y="-365.61984251676745"/>
+    			</TransformGroup>
+    		</Path.RenderTransform>
+    		<Path.Fill>
+    			<RadialGradientBrush RadiusX="1.087" RadiusY="1.609" Center="0.252,0.292" GradientOrigin="0.252,0.292">
+    				<GradientStop Color="#FFC1CAD2"/>
+    				<GradientStop Color="#1C45435E" Offset="0.13"/>
+    			</RadialGradientBrush>
+    		</Path.Fill>
+    	</Path>
+    	<Path Data="M416.26522,193.55511 C475.46511,279.95512 608.05366,273.75941 608.05366,273.75941 608.05366,273.75941 442.26039,979.72245 416.20783,644.79644 402.69985,471.1407 195.82682,577.12538 195.82682,577.12538" Margin="217.958,0,55.413,-507.513" Grid.Row="4" Stretch="Fill" RenderTransformOrigin="0.5,0.5" Height="541.406" VerticalAlignment="Bottom" Grid.ColumnSpan="2">
+    		<Path.RenderTransform>
+    			<TransformGroup>
+    				<ScaleTransform/>
+    				<SkewTransform/>
+    				<RotateTransform Angle="-119.99"/>
+    				<TranslateTransform X="44.147158952705922" Y="-356.71248888067089"/>
+    			</TransformGroup>
+    		</Path.RenderTransform>
+    		<Path.Fill>
+    			<RadialGradientBrush RadiusX="1.087" RadiusY="1.609" Center="0.252,0.292" GradientOrigin="0.252,0.292">
+    				<GradientStop Color="#FFC1D2C1"/>
+    				<GradientStop Color="#1C11D818" Offset="0.24"/>
+    			</RadialGradientBrush>
+    		</Path.Fill>
+    	</Path>
+        
+    	<StackPanel HorizontalAlignment="Left"  Orientation="Horizontal" d:LayoutOverrides="Height">
+    		<Label Content="LeanDog" FontWeight="Bold" Foreground="#FF2446AB" Height="40" d:LayoutOverrides="Width" FontSize="16"/>
+    		<Label Content="Color Combination Challenge 2" FontWeight="Bold" Foreground="#FF39B54A" Height="40" d:LayoutOverrides="Width" Margin="0,4,0,0"/>
+    	</StackPanel>
+    	<TextBox Margin="8,0,8,3.205" Grid.Row="1" TextWrapping="Wrap" Text="{Binding SecurityKey, UpdateSourceTrigger=PropertyChanged}" Grid.ColumnSpan="2" Background="#FFE9E9E9" Foreground="#FF005BB5" Height="28"/>
+    	<Button Content="Unlock Security Panel"
+		 Grid.Column="1"  Grid.Row="2" Command="{Binding ValidateAccess}" Template="{DynamicResource ProcessInputButtonControlTemplate}" Margin="-55.557,2.36,21.244,0"/>
     	<ListBox 
 		 	ItemsSource="{Binding Results}"
-		 	Grid.Row="3"/>
+		 	Grid.Row="3" Grid.RowSpan="2" Width="222" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="#FFFFF500" FontWeight="Bold" FontSize="16" FontFamily="Vani"/>
+    	<Grid HorizontalAlignment="Left" Margin="4,0,0,0" Grid.Row="2" Height="25" VerticalAlignment="Top">
+    		<Grid.ColumnDefinitions>
+    			<ColumnDefinition Width="120"/>
+    			<ColumnDefinition Width="25"/>
+    			<ColumnDefinition Width="25"/>
+    			<ColumnDefinition Width="25"/>
+    		</Grid.ColumnDefinitions>
+    		<TextBlock  TextWrapping="Wrap" Text="Use A Predefined Set" FontSize="10.667" Foreground="White" HorizontalAlignment="Right" Margin="0,0,3,0"/>
+    		<Button Content="1" Margin="2" Grid.Column="1" 
+				Command="{Binding UsePredefinedKeyOneCommand}"
+				Template="{DynamicResource PredefinedButtonControlTemplate}"/>
+			<Button Content="2" Margin="2" Grid.Column="2" 
+				Command="{Binding UsePredefinedKeyTwoCommand}"
+				Template="{DynamicResource PredefinedButtonControlTemplate}"/>
+			<Button Content="3" Margin="2" Grid.Column="3" 
+				Command="{Binding UsePredefinedKeyThreeCommand}"
+				Template="{DynamicResource PredefinedButtonControlTemplate}"/>
+    	</Grid>
         
     </Grid>
 </Window>

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Documents;
 using ChipSecurityCore.DataTypes;
 using ChipSecurityCore.Interfaces;
 
@@ -10,10 +8,10 @@ namespace SecurityClient
 {
     public class SecurityClientViewModel : BaseViewModel
     {
-        
         private readonly IAccessService accessService;
-        private List<string> results;
-        string failureMsg = @"Cannot unlock master panel";
+        private readonly List<string> predefinedKeys;
+        private readonly List<string> results;
+        private const string FailureMsg = @"Cannot unlock master panel";
 
         private string securityKey;
 
@@ -22,12 +20,45 @@ namespace SecurityClient
             this.accessService = accessService;
             ValidateAccess = new DelegateCommand(OnValidateAccess, x => !string.IsNullOrEmpty(securityKey));
             results = new List<string>();
+            predefinedKeys = new List<string>
+                                 {
+                                     "blue, green blue, yellow red, orange red, green yellow, red orange, purple",
+                                     "blue, green blue, yellow red, orange red, green yellow, red orange, red",
+                                     "blue, green blue, green blue, yellow green, yellow orange, red red, green red, orange yellow, blue yellow, red",
+                                 };
+            UsePredefinedKeyOneCommand = new DelegateCommand(() => SecurityKey = predefinedKeys[0]);
+            UsePredefinedKeyTwoCommand = new DelegateCommand(() => SecurityKey = predefinedKeys[1]);
+            UsePredefinedKeyThreeCommand = new DelegateCommand(() => SecurityKey = predefinedKeys[2]);
         }
+
+        public string SecurityKey
+        {
+            get { return securityKey; }
+            set
+            {
+                securityKey = value;
+                OnPropertyChanged("SecurityKey");
+                ValidateAccess.RaiseCanExecuteChanged();
+            }
+        }
+
+        public DelegateCommand ValidateAccess { get; set; }
+
+        public DelegateCommand UsePredefinedKeyOneCommand { get; set; }
+        public DelegateCommand UsePredefinedKeyTwoCommand { get; set; }
+        public DelegateCommand UsePredefinedKeyThreeCommand { get; set; }
+
+        public ObservableCollection<string> Results
+        {
+            get { return new ObservableCollection<string>(results); }
+        }
+
+        public AccessCodeSet AccessCodeSet { get; set; }
 
         private void OnValidateAccess()
         {
             results.Clear();
-            var originalTokenListCount = 0;
+            int originalTokenListCount = 0;
             if (!accessService.AccessInputIsValid(SecurityKey))
             {
                 SetFailureMessege();
@@ -35,8 +66,10 @@ namespace SecurityClient
             }
             AccessCodeSet = accessService.CreateAccessCodeSet(SecurityKey);
             originalTokenListCount = AccessCodeSet.TokenList.Count;
-            var sortedList = accessService.OrderSecurityTokens(AccessCodeSet, new List<Tuple<string, string>>(), null);
-            if(originalTokenListCount > sortedList.Count)
+            List<Tuple<string, string>> sortedList = accessService.OrderSecurityTokens(AccessCodeSet,
+                                                                                       new List<Tuple<string, string>>(),
+                                                                                       null);
+            if (originalTokenListCount > sortedList.Count)
             {
                 SetFailureMessege();
                 return;
@@ -50,29 +83,8 @@ namespace SecurityClient
 
         private void SetFailureMessege()
         {
-            results.Add(failureMsg);
+            results.Add(FailureMsg);
             OnPropertyChanged("Results");
         }
-
-        public string SecurityKey
-        {
-            get { return securityKey; }
-            set
-            {
-                securityKey = value;
-                //OnPropertyChanged("SecurityKey");
-                ValidateAccess.RaiseCanExecuteChanged();
-            }
-        }
-
-        public DelegateCommand ValidateAccess { get; set; }
-
-        public ObservableCollection<string> Results
-        {
-            get { return new ObservableCollection<string>(results); }
-        }
-
-        public AccessCodeSet AccessCodeSet { get; set; }
-
     }
 }
